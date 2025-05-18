@@ -5,38 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./styles.css">
-    <script src="./script.js"></script>
+    <script src="./script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <header>
-        <h1>Ecommerce</h1>
-        <nav>
-            <div>
+    <header class="nav-bar">
+        <div class="nav-bar-1">
+            <h1>Ecommerce</h1>
+        </div>
+        <nav class="nav-bar-2">
+            <div class="nav-bar-3">
                 <a href="">Home</a>
                 <a href="">Products</a>
                 <a href="">About</a>
                 <a href="">Contact</a>
             </div>
-            <div>
-                <button><a href="">Login</a></button>
-                <button><a href="">Register</a></button>
-                <button><a href="">Cart(0)</a></button>
+            <div class="nav-bar-4">
+                <button><a href=""><i class="fa-solid fa-right-to-bracket" style="padding: 0 10px 0 0;"></i>Login</a></button>
+                <button><a href=""><i class="fa fa-user-plus" style="padding: 0 10px 0 0;"></i>Register</a></button>
+                <button><a href=""><i class="fa-solid fa-cart-shopping" style="padding: 0 10px 0 0;"></i>Cart(0)</a></button>
             </div>
         </nav>
     </header>
     <div>
-        <main>
+        <main class="main">
             <figure>
                 <img src="./images/main.png.jpg" alt="">
-                <figcaption>New Season Arrivals</figcaption>
-                <figcaption>This is a wider card with supporting text below as a natural lead-in to 
+                <figcaption class="heading-1">New Season Arrivals</figcaption>
+                <figcaption class="heading-2">This is a wider card with supporting text below as a natural lead-in to 
                     additional content. This content is a bit longer.
                 </figcaption>
             </figure>
         </main>
     </div>
-    <h1>Latest Products</h1>
-    <hr>
+    <div class="latest-product-1">
+        <p>Latest Products</p>
+        <hr>
+    </div>
+    
     <div class="container">
         <div class="filters">
             <button>All</button>
@@ -46,15 +52,9 @@
             <button>Electronics</button>
         </div>
         <div class="products">
-            <div class="product-card">
-                <img src="" alt="">
-                <h4></h4>
-                <p></p>
-                <p></p>
-                <div>
-                    <button>Details</button>
-                    <button>Add to cart</button>
-                </div>
+            <!-- <div class="product-card">
+                
+                </div> -->
             </div>
         </div>
     </div>
