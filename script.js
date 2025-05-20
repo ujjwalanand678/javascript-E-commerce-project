@@ -6,6 +6,8 @@ const menClothing = document.querySelector(".men-clothing");
 const womenClothing = document.querySelector(".women-clothing");
 const jewelery = document.querySelector(".jewelery");
 const electronics = document.querySelector(".electronics");
+const navLinkOne = document.querySelectorAll(".nav-bar-3 .btn-1");
+const navLinkTwo = document.querySelectorAll(".nav-bar-4 .btn-2")
 
 // 1. Define an async function to load products from the API and display them
 async function loadProducts(input) {
@@ -69,13 +71,7 @@ document.addEventListener("DOMContentLoaded", () => loadProducts("all"));
 // 9. Set up click handlers for each filter button
 //    When clicked, they call loadProducts() with the appropriate category
 // 9.1. Grab your filter buttons into an array
-const filterButtons = [
-  all,
-  menClothing,
-  womenClothing,
-  jewelery,
-  electronics
-];
+const filterButtons = [all, menClothing, womenClothing, jewelery, electronics];
 
 // 9.2. Helpers to clear & set active styles
 function clearButtonStyles() {
@@ -94,7 +90,27 @@ function styleActiveButton(btn) {
   btn.style.borderColor     = '#000';
 }
 
-// 9.3. Wire up each button with loadProducts + styling
+
+// Highlight current nav link on load
+document.addEventListener("DOMContentLoaded", () => {
+  navLinkOne.forEach((link) => {
+    if (link.href === window.location.href) {
+      link.style.color = "black";
+      
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  navLinkTwo.forEach((link) => {
+    if (link.href === window.location.href) {
+      link.style.backgroundColor = "black";
+      link.style.color = "#f2f2f2";
+      link.style.borderColor = "black";
+    }
+  });
+});
+// filter button style highlight on clicking
 all.addEventListener("click", () => {
   loadProducts("all");
   clearButtonStyles();

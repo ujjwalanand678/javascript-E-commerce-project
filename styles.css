@@ -39,6 +39,7 @@
 .latest-product-1 hr {
   position: relative;
   top: -41px;
+  opacity: 0.7;
 }
 .latest-product-1 p {
   font-size: 50px;
