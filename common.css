@@ -1,0 +1,61 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+/* styles for header section */
+.nav-bar {
+  display: flex;
+  padding: 0 100px;
+  align-items: center;
+  background-color: #f8f9fa;
+  position: sticky;
+  top: 0; /* Fixes it to the very top */
+  z-index: 1000;
+}
+.nav-bar-1 {
+  display: flex;
+  flex: 2;
+}
+.nav-bar-2 {
+  display: flex;
+  align-items: center;
+  flex: 10;
+}
+.nav-bar-3 {
+  flex: 4;
+  padding: 0 70px 0 145px;
+}
+.nav-bar-3 a {
+  flex: 4;
+  text-decoration: none;
+  padding: 0 10px;
+  color: rgb(88, 88, 88);
+  font-size: large;
+}
+.nav-bar-3 a:hover {
+  color: black;
+}
+.nav-bar-4 {
+  flex: 5;
+}
+.nav-bar-4 .btn-2 {
+    border: 1px solid black;
+  margin: 0 10px;
+  padding: 8px 12px;
+  color: black;
+  border-radius: 5px;
+}
+.nav-bar-4 a:hover {
+  color: #f2f2f2;
+  background-color: black;
+}
+.nav-bar-4 button:hover{
+  color: #f2f2f2;
+  background-color: black;
+}
+.nav-bar-4  a {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+}
