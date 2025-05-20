@@ -68,8 +68,67 @@ document.addEventListener("DOMContentLoaded", () => loadProducts("all"));
 
 // 9. Set up click handlers for each filter button
 //    When clicked, they call loadProducts() with the appropriate category
-all.addEventListener("click", () => loadProducts("all"));
-menClothing.addEventListener("click", () => loadProducts("men's clothing"));
-womenClothing.addEventListener("click", () => loadProducts("women's clothing"));
-jewelery.addEventListener("click", () => loadProducts("jewelery"));
-electronics.addEventListener("click", () => loadProducts("electronics"));
+// 9.1. Grab your filter buttons into an array
+const filterButtons = [
+  all,
+  menClothing,
+  womenClothing,
+  jewelery,
+  electronics
+];
+
+// 9.2. Helpers to clear & set active styles
+function clearButtonStyles() {
+  filterButtons.forEach(btn => {
+    // reset inline styles completely
+    btn.style.backgroundColor = '';
+    btn.style.color           = '';
+    btn.style.borderColor     = '';
+  });
+}
+
+function styleActiveButton(btn) {
+  // for example: black background, white text, black border
+  btn.style.backgroundColor = '#000';
+  btn.style.color           = '#fff';
+  btn.style.borderColor     = '#000';
+}
+
+// 9.3. Wire up each button with loadProducts + styling
+all.addEventListener("click", () => {
+  loadProducts("all");
+  clearButtonStyles();
+  styleActiveButton(all);
+});
+
+menClothing.addEventListener("click", () => {
+  loadProducts("men's clothing");
+  clearButtonStyles();
+  styleActiveButton(menClothing);
+});
+
+womenClothing.addEventListener("click", () => {
+  loadProducts("women's clothing");
+  clearButtonStyles();
+  styleActiveButton(womenClothing);
+});
+
+jewelery.addEventListener("click", () => {
+  loadProducts("jewelery");
+  clearButtonStyles();
+  styleActiveButton(jewelery);
+});
+
+electronics.addEventListener("click", () => {
+  loadProducts("electronics");
+  clearButtonStyles();
+  styleActiveButton(electronics);
+});
+
+// 9.4. Optionally, mark “All” active on initial load:
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts("all");
+  clearButtonStyles();
+  styleActiveButton(all);
+});
+
