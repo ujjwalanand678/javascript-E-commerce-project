@@ -20,7 +20,7 @@ async function loadProducts() {
       card.classList.add("product-card");
       card.innerHTML = `
           <img src="${prod.image}" alt="${prod.title}">
-          <h4>${prod.title}</h4>
+          <h4 class= "title">${prod.title}</h4>
           <P class ="description">${prod.description}</p>
           <hr class="card-divider">
           <p class="price">$${prod.price.toFixed(2)}</p>
