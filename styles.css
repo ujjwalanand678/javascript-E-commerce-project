@@ -2,7 +2,7 @@
 /* main styles */
 .main{
   position: relative;
-  top: 0;
+  top: -15px;
 }
 .main figure img {
   position: relative;
