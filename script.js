@@ -1,7 +1,8 @@
+const products = document.querySelector(".products");
 // 1 Define an async function that does your work
 async function loadProducts() {
   // 2 Grab the container once
-  const productsContainer = document.querySelector(".products");
+  const productsContainer = products;
 
   try {
     // 3 Fetch & await the JSON in two simple lines
@@ -20,7 +21,10 @@ async function loadProducts() {
       card.innerHTML = `
           <img src="${prod.image}" alt="${prod.title}">
           <h4>${prod.title}</h4>
+          <P class ="description">${prod.description}</p>
+          <hr class="card-divider">
           <p class="price">$${prod.price.toFixed(2)}</p>
+          <hr class="card-divider">
           <div class="actions">
             <button class="details">Details</button>
             <button class="add-to-cart">Add to cart</button>
