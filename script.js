@@ -8,6 +8,7 @@ const jewelery = document.querySelector(".jewelery");
 const electronics = document.querySelector(".electronics");
 const navLinkOne = document.querySelectorAll(".nav-bar-3 .btn-1");
 const navLinkTwo = document.querySelectorAll(".nav-bar-4 .btn-2")
+const addToCart = document.querySelectorAll(".actions .add-to-cart");
 
 // 1. Define an async function to load products from the API and display them
 async function loadProducts(input) {

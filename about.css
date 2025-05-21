@@ -1,0 +1,37 @@
+.about-us {
+  text-align: center;
+  width: 88%;
+  margin: 0px 79px;
+  position: relative;
+}
+.about-us hr {
+  position: relative;
+  opacity: 0.7;
+}
+.about-us p {
+  opacity: 0.7;
+}
+.our-product{
+    display: flex;
+    justify-content: center;
+}
+.our-product img{
+    width: 250px;
+    border-radius: 5px 5px 0 0;
+}
+.our-product-card{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(215, 215, 215);
+    border-radius: 5px;
+    margin: 10px;
+}
+.our-product-card strong{
+    text-align: center;
+    padding: 15px;
+    
+}
+.our-product-container h2{
+    text-align: center;
+    margin-top: 56px;
+}
