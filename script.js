@@ -67,7 +67,6 @@ document.addEventListener("click", (event) => {
 
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
     updateCartCount();
-    
   }
 });
 
@@ -162,7 +161,7 @@ if (electronics) {
 // Cart Page Renderer
 function renderCartItems() {
   const itemList = document.querySelector(".item-list");
-  const orderSummary = document.querySelector(".order");
+  const orderSummary = document.querySelector(".order-summary");
 
   if (!itemList || !orderSummary) return;
 
@@ -211,7 +210,7 @@ function renderCartItems() {
   `;
 }
 
-// Quantity change handling
+// Quantity change handling (with delete on quantity 1)
 document.addEventListener("click", (e) => {
   if (
     e.target.classList.contains("increase") ||
@@ -225,7 +224,11 @@ document.addEventListener("click", (e) => {
     if (e.target.classList.contains("increase")) {
       item.quantity += 1;
     } else {
-      item.quantity = Math.max(1, item.quantity - 1);
+      if (item.quantity === 1) {
+        cart = cart.filter((i) => i.title !== title); // Remove item
+      } else {
+        item.quantity -= 1;
+      }
     }
 
     localStorage.setItem("cartItems", JSON.stringify(cart));
