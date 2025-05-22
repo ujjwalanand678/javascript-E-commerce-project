@@ -193,6 +193,7 @@ function renderCartItems() {
             }">+</button>
           </div>
           <p>${item.quantity} × $${item.price.toFixed(2)}</p>
+          <hr />
         </div>
       </div>
     `;
@@ -200,13 +201,15 @@ function renderCartItems() {
   });
 
   orderSummary.innerHTML = `
-    <h3>Order Summary</h3>
+    <h3 class = "order-summary-1">Order Summary</h3>
+    <div class = "order-summary-2">
     <p>Products (${count}) <span>$${total.toFixed(2)}</span></p>
     <p>Shipping <span>$30</span></p>
     <p><strong>Total amount</strong> <span><strong>$${(total + 30).toFixed(
       2
     )}</strong></span></p>
     <button class="checkout-btn">Go to checkout</button>
+    </div>
   `;
 }
 
