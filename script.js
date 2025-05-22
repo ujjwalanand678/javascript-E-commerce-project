@@ -1,47 +1,54 @@
-// Select HTML elements once and store references in variables
-// This makes it easy to work with these elements later in the script
-const products = document.querySelector(".products"); // Container where product cards will go
-const all = document.querySelector(".all"); // "All" filter button
+const products = document.querySelector(".products");
+const all = document.querySelector(".all");
 const menClothing = document.querySelector(".men-clothing");
 const womenClothing = document.querySelector(".women-clothing");
 const jewelery = document.querySelector(".jewelery");
 const electronics = document.querySelector(".electronics");
 const navLinkOne = document.querySelectorAll(".nav-bar-3 .btn-1");
-const navLinkTwo = document.querySelectorAll(".nav-bar-4 .btn-2")
-const addToCart = document.querySelectorAll(".actions .add-to-cart");
+const navLinkTwo = document.querySelectorAll(".nav-bar-4 .btn-2");
+const itemList = document.querySelector(".item-list");
+const orderSummary = document.querySelector(".order");
 
-//Define an async function to load products from the API and display them
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function updateCartCount() {
+  const cartLink = document.querySelector('.nav-bar-4 a[href="./cart.html"]');
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  cartLink.innerHTML = `<i class="fa-solid fa-cart-shopping"></i> Cart (${totalItems})`;
+}
+
+function addToCart(productId) {
+  const existing = cart.find((item) => item.id === productId);
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ id: productId, quantity: 1 });
+  }
+  saveCart();
+  updateCartCount();
+}
+
+// Load and display products
 async function loadProducts(input) {
-  //  Grab the container element where we'll insert product cards
   const productsContainer = products;
-
   try {
-    //  Fetch the product list from the API
-    //    We use "await" to pause until the request completes
-    const response = await fetch("https://fakestoreapi.com/products");
+    const res = await fetch("https://fakestoreapi.com/products");
+    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+    let productList = await res.json();
 
-    //  Check for HTTP errors (status codes other than 200–299)
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-    //  Parse the JSON response into a JavaScript array
-    let products = await response.json();
-
-    //  Clear any existing content in the container
-    productsContainer.innerHTML = "";
-
-    //  Apply category filter if needed
-    //    If "input" is defined and not "all", filter the array
-    if (input !== undefined && input !== null && input !== "all") {
-      products = products.filter((data) => data.category === input);
+    if (input && input !== "all") {
+      productList = productList.filter((p) => p.category === input);
     }
 
-    // Loop through the (filtered) products and create a card for each
-    products.forEach((prod) => {
-      // Create a new <div> element for the card
+    productsContainer.innerHTML = "";
+    productList.forEach((prod) => {
       const card = document.createElement("div");
-      card.classList.add("product-card"); // Add CSS class for styling
-
-      // Fill the card with HTML, using template literals for easy insertion
+      card.classList.add("product-card");
+      card.dataset.id = prod.id;
       card.innerHTML = `
         <img src="${prod.image}" alt="${prod.title}">
         <h4 class="title">${prod.title}</h4>
@@ -54,55 +61,89 @@ async function loadProducts(input) {
           <button class="add-to-cart">Add to cart</button>
         </div>
       `;
-
-      // Add the completed card into the container
       productsContainer.appendChild(card);
     });
+
+    setupAddToCartButtons();
   } catch (err) {
-    // Error handling: log any problems and show a message
-    console.error("Fetch error:", err);
+    console.error("Error loading products:", err);
     productsContainer.textContent = "Failed to load products.";
   }
 }
 
-// Listen for page load, then fetch all products by default
-//    "DOMContentLoaded" event ensures HTML is ready
-document.addEventListener("DOMContentLoaded", () => loadProducts("all"));
+function setupAddToCartButtons() {
+  const buttons = document.querySelectorAll(".add-to-cart");
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const productCard = btn.closest(".product-card");
+      const productId = parseInt(productCard.dataset.id);
+      addToCart(productId);
+    });
+  });
+}
 
-// Set up click handlers for each filter button
-//    When clicked, they call loadProducts() with the appropriate category
-//  Grab your filter buttons into an array
-const filterButtons = [all, menClothing, womenClothing, jewelery, electronics];
-
-// Helpers to clear & set active styles
+// Category filter handlers
 function clearButtonStyles() {
-  filterButtons.forEach(btn => {
-    // reset inline styles completely
-    btn.style.backgroundColor = '';
-    btn.style.color           = '';
-    btn.style.borderColor     = '';
+  [all, menClothing, womenClothing, jewelery, electronics].forEach((btn) => {
+    btn.style.backgroundColor = "";
+    btn.style.color = "";
+    btn.style.borderColor = "";
   });
 }
 
 function styleActiveButton(btn) {
-  // for example: black background, white text, black border
-  btn.style.backgroundColor = '#000';
-  btn.style.color           = '#fff';
-  btn.style.borderColor     = '#000';
+  btn.style.backgroundColor = "#000";
+  btn.style.color = "#fff";
+  btn.style.borderColor = "#000";
 }
 
+all?.addEventListener("click", () => {
+  loadProducts("all");
+  clearButtonStyles();
+  styleActiveButton(all);
+});
 
-// Highlight current nav link on load
-document.addEventListener("DOMContentLoaded", () => {
-  navLinkOne.forEach((link) => {
-    if (link.href === window.location.href) {
-      link.style.color = "black";
-      
-    }
-  });
+menClothing?.addEventListener("click", () => {
+  loadProducts("men's clothing");
+  clearButtonStyles();
+  styleActiveButton(menClothing);
+});
+
+womenClothing?.addEventListener("click", () => {
+  loadProducts("women's clothing");
+  clearButtonStyles();
+  styleActiveButton(womenClothing);
+});
+
+jewelery?.addEventListener("click", () => {
+  loadProducts("jewelery");
+  clearButtonStyles();
+  styleActiveButton(jewelery);
+});
+
+electronics?.addEventListener("click", () => {
+  loadProducts("electronics");
+  clearButtonStyles();
+  styleActiveButton(electronics);
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (products) {
+    loadProducts("all");
+    clearButtonStyles();
+    styleActiveButton(all);
+  }
+  updateCartCount();
+  highlightNavLink();
+  if (itemList && orderSummary) {
+    renderCart();
+  }
+});
+
+function highlightNavLink() {
+  navLinkOne.forEach((link) => {
+    if (link.href === window.location.href) link.style.color = "black";
+  });
   navLinkTwo.forEach((link) => {
     if (link.href === window.location.href) {
       link.style.backgroundColor = "black";
@@ -110,42 +151,54 @@ document.addEventListener("DOMContentLoaded", () => {
       link.style.borderColor = "black";
     }
   });
-});
-// filter button style highlight on clicking
-all.addEventListener("click", () => {
-  loadProducts("all");
-  clearButtonStyles();
-  styleActiveButton(all);
-});
+}
 
-menClothing.addEventListener("click", () => {
-  loadProducts("men's clothing");
-  clearButtonStyles();
-  styleActiveButton(menClothing);
-});
+// Render cart page from localStorage
+async function renderCart() {
+  try {
+    const res = await fetch("https://fakestoreapi.com/products");
+    const allProducts = await res.json();
+    itemList.innerHTML = "";
 
-womenClothing.addEventListener("click", () => {
-  loadProducts("women's clothing");
-  clearButtonStyles();
-  styleActiveButton(womenClothing);
-});
+    let totalAmount = 0;
+    let itemCount = 0;
 
-jewelery.addEventListener("click", () => {
-  loadProducts("jewelery");
-  clearButtonStyles();
-  styleActiveButton(jewelery);
-});
+    for (const item of cart) {
+      const product = allProducts.find((p) => p.id === item.id);
+      if (!product) continue;
 
-electronics.addEventListener("click", () => {
-  loadProducts("electronics");
-  clearButtonStyles();
-  styleActiveButton(electronics);
-});
+      const itemTotal = product.price * item.quantity;
+      totalAmount += itemTotal;
+      itemCount += item.quantity;
 
-// 9.4. Optionally, mark “All” active on initial load:
-document.addEventListener("DOMContentLoaded", () => {
-  loadProducts("all");
-  clearButtonStyles();
-  styleActiveButton(all);
-});
+      const itemCard = document.createElement("div");
+      itemCard.classList.add("item-card");
+      itemCard.innerHTML = `
+        <div class="cart-item">
+          <img src="${product.image}" alt="${product.title}" class="cart-img"/>
+          <div class="cart-details">
+            <h4>${product.title}</h4>
+            <div class="qty-row">
+              <span>Quantity: ${item.quantity}</span>
+            </div>
+            <p>${item.quantity} × $${product.price.toFixed(2)}</p>
+          </div>
+        </div>
+      `;
+      itemList.appendChild(itemCard);
+    }
 
+    orderSummary.innerHTML = `
+      <h3>Order Summary</h3>
+      <p>Products (${itemCount}) <span>$${totalAmount.toFixed(2)}</span></p>
+      <p>Shipping <span>$30</span></p>
+      <p><strong>Total</strong> <span><strong>$${(totalAmount + 30).toFixed(
+        2
+      )}</strong></span></p>
+      <button class="checkout-btn">Go to checkout</button>
+    `;
+  } catch (error) {
+    console.error("Cart rendering error:", error);
+    itemList.innerHTML = "<p>Failed to load cart.</p>";
+  }
+}

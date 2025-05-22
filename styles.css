@@ -110,6 +110,7 @@
   border-radius: 5px;
   padding: 8px 13px;
   margin: 10px;
+  cursor: pointer;
 }
 .product-card .add-to-cart {
   border: none;
@@ -119,6 +120,7 @@
   font-weight: 200;
   border-radius: 5px;
   padding: 8px 13px;
+  cursor: pointer;
 }
 .product-card .description {
   white-space: wrap;
