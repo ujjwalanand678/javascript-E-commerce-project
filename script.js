@@ -10,32 +10,32 @@ const navLinkOne = document.querySelectorAll(".nav-bar-3 .btn-1");
 const navLinkTwo = document.querySelectorAll(".nav-bar-4 .btn-2")
 const addToCart = document.querySelectorAll(".actions .add-to-cart");
 
-// 1. Define an async function to load products from the API and display them
+//Define an async function to load products from the API and display them
 async function loadProducts(input) {
-  // 2. Grab the container element where we'll insert product cards
+  //  Grab the container element where we'll insert product cards
   const productsContainer = products;
 
   try {
-    // 3. Fetch the product list from the API
+    //  Fetch the product list from the API
     //    We use "await" to pause until the request completes
     const response = await fetch("https://fakestoreapi.com/products");
 
-    // 3a. Check for HTTP errors (status codes other than 200–299)
+    //  Check for HTTP errors (status codes other than 200–299)
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-    // 3b. Parse the JSON response into a JavaScript array
+    //  Parse the JSON response into a JavaScript array
     let products = await response.json();
 
-    // 4. Clear any existing content in the container
+    //  Clear any existing content in the container
     productsContainer.innerHTML = "";
 
-    // 5. Apply category filter if needed
+    //  Apply category filter if needed
     //    If "input" is defined and not "all", filter the array
     if (input !== undefined && input !== null && input !== "all") {
       products = products.filter((data) => data.category === input);
     }
 
-    // 6. Loop through the (filtered) products and create a card for each
+    // Loop through the (filtered) products and create a card for each
     products.forEach((prod) => {
       // Create a new <div> element for the card
       const card = document.createElement("div");
@@ -59,22 +59,22 @@ async function loadProducts(input) {
       productsContainer.appendChild(card);
     });
   } catch (err) {
-    // 7. Error handling: log any problems and show a message
+    // Error handling: log any problems and show a message
     console.error("Fetch error:", err);
     productsContainer.textContent = "Failed to load products.";
   }
 }
 
-// 8. Listen for page load, then fetch all products by default
+// Listen for page load, then fetch all products by default
 //    "DOMContentLoaded" event ensures HTML is ready
 document.addEventListener("DOMContentLoaded", () => loadProducts("all"));
 
-// 9. Set up click handlers for each filter button
+// Set up click handlers for each filter button
 //    When clicked, they call loadProducts() with the appropriate category
-// 9.1. Grab your filter buttons into an array
+//  Grab your filter buttons into an array
 const filterButtons = [all, menClothing, womenClothing, jewelery, electronics];
 
-// 9.2. Helpers to clear & set active styles
+// Helpers to clear & set active styles
 function clearButtonStyles() {
   filterButtons.forEach(btn => {
     // reset inline styles completely
