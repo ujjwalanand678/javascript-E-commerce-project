@@ -87,4 +87,21 @@
     cursor: pointer;
     margin-top: 20px;
   }
+  .qty-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+  }
+  .qty-btn {
+    padding: 4px 10px;
+    background: #f0f0f0;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .qty-btn:hover {
+    background: #ddd;
+  }
   

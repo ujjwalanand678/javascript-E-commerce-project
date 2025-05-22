@@ -1,54 +1,47 @@
-const products = document.querySelector(".products");
-const all = document.querySelector(".all");
+// Select HTML elements once and store references in variables
+// This makes it easy to work with these elements later in the script
+const products = document.querySelector(".products"); // Container where product cards will go
+const all = document.querySelector(".all"); // "All" filter button
 const menClothing = document.querySelector(".men-clothing");
 const womenClothing = document.querySelector(".women-clothing");
 const jewelery = document.querySelector(".jewelery");
 const electronics = document.querySelector(".electronics");
 const navLinkOne = document.querySelectorAll(".nav-bar-3 .btn-1");
-const navLinkTwo = document.querySelectorAll(".nav-bar-4 .btn-2");
-const itemList = document.querySelector(".item-list");
-const orderSummary = document.querySelector(".order");
+const navLinkTwo = document.querySelectorAll(".nav-bar-4 .btn-2")
+const addToCart = document.querySelectorAll(".actions .add-to-cart");
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-function saveCart() {
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-function updateCartCount() {
-  const cartLink = document.querySelector('.nav-bar-4 a[href="./cart.html"]');
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  cartLink.innerHTML = `<i class="fa-solid fa-cart-shopping"></i> Cart (${totalItems})`;
-}
-
-function addToCart(productId) {
-  const existing = cart.find((item) => item.id === productId);
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    cart.push({ id: productId, quantity: 1 });
-  }
-  saveCart();
-  updateCartCount();
-}
-
-// Load and display products
+//Define an async function to load products from the API and display them
 async function loadProducts(input) {
+  //  Grab the container element where we'll insert product cards
   const productsContainer = products;
-  try {
-    const res = await fetch("https://fakestoreapi.com/products");
-    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-    let productList = await res.json();
 
-    if (input && input !== "all") {
-      productList = productList.filter((p) => p.category === input);
+  try {
+    //  Fetch the product list from the API
+    //    We use "await" to pause until the request completes
+    const response = await fetch("https://fakestoreapi.com/products");
+
+    //  Check for HTTP errors (status codes other than 200–299)
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    //  Parse the JSON response into a JavaScript array
+    let products = await response.json();
+
+    //  Clear any existing content in the container
+    productsContainer.innerHTML = "";
+
+    //  Apply category filter if needed
+    //    If "input" is defined and not "all", filter the array
+    if (input !== undefined && input !== null && input !== "all") {
+      products = products.filter((data) => data.category === input);
     }
 
-    productsContainer.innerHTML = "";
-    productList.forEach((prod) => {
+    // Loop through the (filtered) products and create a card for each
+    products.forEach((prod) => {
+      // Create a new <div> element for the card
       const card = document.createElement("div");
-      card.classList.add("product-card");
-      card.dataset.id = prod.id;
+      card.classList.add("product-card"); // Add CSS class for styling
+
+      // Fill the card with HTML, using template literals for easy insertion
       card.innerHTML = `
         <img src="${prod.image}" alt="${prod.title}">
         <h4 class="title">${prod.title}</h4>
@@ -61,89 +54,55 @@ async function loadProducts(input) {
           <button class="add-to-cart">Add to cart</button>
         </div>
       `;
+
+      // Add the completed card into the container
       productsContainer.appendChild(card);
     });
-
-    setupAddToCartButtons();
   } catch (err) {
-    console.error("Error loading products:", err);
+    // Error handling: log any problems and show a message
+    console.error("Fetch error:", err);
     productsContainer.textContent = "Failed to load products.";
   }
 }
 
-function setupAddToCartButtons() {
-  const buttons = document.querySelectorAll(".add-to-cart");
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const productCard = btn.closest(".product-card");
-      const productId = parseInt(productCard.dataset.id);
-      addToCart(productId);
-    });
-  });
-}
+// Listen for page load, then fetch all products by default
+//    "DOMContentLoaded" event ensures HTML is ready
+document.addEventListener("DOMContentLoaded", () => loadProducts("all"));
 
-// Category filter handlers
+// Set up click handlers for each filter button
+//    When clicked, they call loadProducts() with the appropriate category
+//  Grab your filter buttons into an array
+const filterButtons = [all, menClothing, womenClothing, jewelery, electronics];
+
+// Helpers to clear & set active styles
 function clearButtonStyles() {
-  [all, menClothing, womenClothing, jewelery, electronics].forEach((btn) => {
-    btn.style.backgroundColor = "";
-    btn.style.color = "";
-    btn.style.borderColor = "";
+  filterButtons.forEach(btn => {
+    // reset inline styles completely
+    btn.style.backgroundColor = '';
+    btn.style.color           = '';
+    btn.style.borderColor     = '';
   });
 }
 
 function styleActiveButton(btn) {
-  btn.style.backgroundColor = "#000";
-  btn.style.color = "#fff";
-  btn.style.borderColor = "#000";
+  // for example: black background, white text, black border
+  btn.style.backgroundColor = '#000';
+  btn.style.color           = '#fff';
+  btn.style.borderColor     = '#000';
 }
 
-all?.addEventListener("click", () => {
-  loadProducts("all");
-  clearButtonStyles();
-  styleActiveButton(all);
-});
 
-menClothing?.addEventListener("click", () => {
-  loadProducts("men's clothing");
-  clearButtonStyles();
-  styleActiveButton(menClothing);
-});
-
-womenClothing?.addEventListener("click", () => {
-  loadProducts("women's clothing");
-  clearButtonStyles();
-  styleActiveButton(womenClothing);
-});
-
-jewelery?.addEventListener("click", () => {
-  loadProducts("jewelery");
-  clearButtonStyles();
-  styleActiveButton(jewelery);
-});
-
-electronics?.addEventListener("click", () => {
-  loadProducts("electronics");
-  clearButtonStyles();
-  styleActiveButton(electronics);
+// Highlight current nav link on load
+document.addEventListener("DOMContentLoaded", () => {
+  navLinkOne.forEach((link) => {
+    if (link.href === window.location.href) {
+      link.style.color = "black";
+      
+    }
+  });
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (products) {
-    loadProducts("all");
-    clearButtonStyles();
-    styleActiveButton(all);
-  }
-  updateCartCount();
-  highlightNavLink();
-  if (itemList && orderSummary) {
-    renderCart();
-  }
-});
-
-function highlightNavLink() {
-  navLinkOne.forEach((link) => {
-    if (link.href === window.location.href) link.style.color = "black";
-  });
   navLinkTwo.forEach((link) => {
     if (link.href === window.location.href) {
       link.style.backgroundColor = "black";
@@ -151,20 +110,64 @@ function highlightNavLink() {
       link.style.borderColor = "black";
     }
   });
-}
+});
+// filter button style highlight on clicking
+all.addEventListener("click", () => {
+  loadProducts("all");
+  clearButtonStyles();
+  styleActiveButton(all);
+});
 
-// Render cart page from localStorage
-async function renderCart() {
+menClothing.addEventListener("click", () => {
+  loadProducts("men's clothing");
+  clearButtonStyles();
+  styleActiveButton(menClothing);
+});
+
+womenClothing.addEventListener("click", () => {
+  loadProducts("women's clothing");
+  clearButtonStyles();
+  styleActiveButton(womenClothing);
+});
+
+jewelery.addEventListener("click", () => {
+  loadProducts("jewelery");
+  clearButtonStyles();
+  styleActiveButton(jewelery);
+});
+
+electronics.addEventListener("click", () => {
+  loadProducts("electronics");
+  clearButtonStyles();
+  styleActiveButton(electronics);
+});
+
+// 9.4. Optionally, mark “All” active on initial load:
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts("all");
+  clearButtonStyles();
+  styleActiveButton(all);
+});
+
+///////////////CART ADDED DYNAMICALLY////////////////
+const itemList = document.querySelector(".item-list");
+const orderSummary = document.querySelector(".order");
+
+async function cartItems() {
   try {
-    const res = await fetch("https://fakestoreapi.com/products");
-    const allProducts = await res.json();
+    const cartRes = await fetch("https://fakestoreapi.com/carts/1");
+    const cartData = await cartRes.json();
+
+    const productRes = await fetch("https://fakestoreapi.com/products");
+    const products = await productRes.json();
+
     itemList.innerHTML = "";
 
     let totalAmount = 0;
     let itemCount = 0;
 
-    for (const item of cart) {
-      const product = allProducts.find((p) => p.id === item.id);
+    for (const item of cartData.products) {
+      const product = products.find((p) => p.id === item.productId);
       if (!product) continue;
 
       const itemTotal = product.price * item.quantity;
@@ -179,7 +182,9 @@ async function renderCart() {
           <div class="cart-details">
             <h4>${product.title}</h4>
             <div class="qty-row">
-              <span>Quantity: ${item.quantity}</span>
+              <button class="qty-btn">−</button>
+              <span>${item.quantity}</span>
+              <button class="qty-btn">+</button>
             </div>
             <p>${item.quantity} × $${product.price.toFixed(2)}</p>
           </div>
@@ -192,13 +197,16 @@ async function renderCart() {
       <h3>Order Summary</h3>
       <p>Products (${itemCount}) <span>$${totalAmount.toFixed(2)}</span></p>
       <p>Shipping <span>$30</span></p>
-      <p><strong>Total</strong> <span><strong>$${(totalAmount + 30).toFixed(
-        2
-      )}</strong></span></p>
+      <p><strong>Total amount</strong> <span><strong>$${(
+        totalAmount + 30
+      ).toFixed(2)}</strong></span></p>
       <button class="checkout-btn">Go to checkout</button>
     `;
   } catch (error) {
-    console.error("Cart rendering error:", error);
+    console.error("Error loading cart:", error);
     itemList.innerHTML = "<p>Failed to load cart.</p>";
   }
 }
+
+document.addEventListener("DOMContentLoaded", cartItems);
+
