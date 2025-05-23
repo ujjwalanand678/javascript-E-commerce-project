@@ -183,17 +183,16 @@ function renderCartItems() {
         <img src="${item.image}" alt="${item.title}" class="cart-img"/>
         <div class="cart-details">
           <h4>${item.title}</h4>
+          <div class="price-quantity">
           <div class="qty-row">
-            <button class="qty-btn decrease" data-title="${
-              item.title
-            }">−</button>
-            <span>${item.quantity}</span>
-            <button class="qty-btn increase" data-title="${
-              item.title
-            }">+</button>
+            <button class="qty-btn decrease" data-title="${item.title
+              }">−</button>
+              <span>${item.quantity}</span>
+            <button class="qty-btn increase" data-title="${item.title
+              }">+</button>
           </div>
           <p>${item.quantity} × $${item.price.toFixed(2)}</p>
-          <hr />
+          </div>
         </div>
       </div>
     `;
@@ -206,8 +205,8 @@ function renderCartItems() {
     <p>Products (${count}) <span>$${total.toFixed(2)}</span></p>
     <p>Shipping <span>$30</span></p>
     <p><strong>Total amount</strong> <span><strong>$${(total + 30).toFixed(
-      2
-    )}</strong></span></p>
+    2
+  )}</strong></span></p>
     <button class="checkout-btn">Go to checkout</button>
     </div>
   `;
