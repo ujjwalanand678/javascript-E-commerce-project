@@ -171,6 +171,31 @@ function renderCartItems() {
   let total = 0;
   let count = 0;
 
+  if (cartItems.length === 0) {
+    // Show empty cart message
+    const emptyMsg = document.createElement("div");
+    emptyMsg.classList.add("empty-msg");
+    emptyMsg.innerHTML = `
+    <div>
+    <p>Your cart is empty</p>
+    <a href="./index.html" class="checkout-btn-1"><i class="fa-solid fa-arrow-left"></i>  <b> Continue Shopping<b/></a> 
+    <div/>
+    `;
+   
+    emptyMsg.style.textAlign = "center";
+    emptyMsg.style.padding = "30px";
+    emptyMsg.style.fontSize = "20px";
+    emptyMsg.style.color = "#777";
+    itemList.appendChild(emptyMsg);
+
+    // Hide the order summary
+    orderSummary.style.display = "none";
+    return;
+  }
+
+  // Show the order summary since cart has items
+  orderSummary.style.display = "block";
+
   cartItems.forEach((item) => {
     const itemCard = document.createElement("div");
     itemCard.classList.add("item-card");
@@ -184,14 +209,16 @@ function renderCartItems() {
         <div class="cart-details">
           <h4>${item.title}</h4>
           <div class="price-quantity">
-          <div class="qty-row">
-            <button class="qty-btn decrease" data-title="${item.title
+            <div class="qty-row">
+              <button class="qty-btn decrease" data-title="${
+                item.title
               }">−</button>
               <span>${item.quantity}</span>
-            <button class="qty-btn increase" data-title="${item.title
+              <button class="qty-btn increase" data-title="${
+                item.title
               }">+</button>
-          </div>
-          <p>${item.quantity} × $${item.price.toFixed(2)}</p>
+            </div>
+            <p>${item.quantity} × $${item.price.toFixed(2)}</p>
           </div>
         </div>
       </div>
@@ -200,14 +227,14 @@ function renderCartItems() {
   });
 
   orderSummary.innerHTML = `
-    <h3 class = "order-summary-1">Order Summary</h3>
-    <div class = "order-summary-2">
-    <p>Products (${count}) <span>$${total.toFixed(2)}</span></p>
-    <p>Shipping <span>$30</span></p>
-    <p><strong>Total amount</strong> <span><strong>$${(total + 30).toFixed(
-    2
-  )}</strong></span></p>
-    <button class="checkout-btn">Go to checkout</button>
+    <h3 class="order-summary-1">Order Summary</h3>
+    <div class="order-summary-2">
+      <p>Products (${count}) <span>$${total.toFixed(2)}</span></p>
+      <p>Shipping <span>$30</span></p>
+      <p><strong>Total amount</strong> <span><strong>$${(total + 30).toFixed(
+        2
+      )}</strong></span></p>
+      <button class="checkout-btn">Go to checkout</button>
     </div>
   `;
 }

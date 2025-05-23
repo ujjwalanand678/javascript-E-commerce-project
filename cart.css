@@ -1,3 +1,6 @@
+.order-summary {
+  display: none;
+}
 .cart-heading {
   text-align: center;
   margin-bottom: 66px;
@@ -133,6 +136,18 @@ main{
   font-size: 16px;
   cursor: pointer;
   margin-top: 20px;
+}
+.checkout-btn-1 {
+  text-decoration: none;
+  
+  padding: 12px;
+ border: 1px solid black;
+  color: #262626;
+    border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  align-items: center;
 }
 .qty-row {
   display: flex;
