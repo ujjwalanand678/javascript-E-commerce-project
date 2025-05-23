@@ -1,0 +1,53 @@
+.contact-us {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  justify-self: center;
+  padding: 20px;
+}
+.heading-contact {
+  text-align: center;
+}
+.contact-us-1 {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  justify-self: center;
+  padding: 20px;
+}
+.heading-contact hr {
+  opacity: 0.6;
+  width: 90%;
+}
+#password {
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  border: 1px solid rgb(217, 217, 217);
+  margin: 6px 0 10px 0;
+}
+#email {
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  border: 1px solid rgb(217, 217, 217);
+  margin: 6px 0 10px 0;
+}
+#name {
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  border: 1px solid rgb(217, 217, 217);
+  margin: 6px 0 10px 0;
+}
+#send {
+  position: relative;
+  border: none;
+  border-radius: 5px;
+  padding: 8px;
+  border: 1px solid rgb(217, 217, 217);
+  left: 100px;
+  width: 33%;
+  background-color: rgb(61, 61, 61);
+  color: aliceblue;
+}
