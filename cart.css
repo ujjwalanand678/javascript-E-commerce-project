@@ -84,7 +84,7 @@ main{
 .cart-details h4{
   overflow-x: hidden;
   width: 440px;
-  padding-left: 28px;
+  padding: 0 28px 0 28px;
 }
 .price-quantity{
   padding: 15px;
@@ -92,13 +92,18 @@ main{
 .price-quantity p{
   font-weight: bold;
 }
-.price-quantity .qty-control {
+ .qty-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+.qty-row.qty-row {
   display: flex;
   align-items: center;
   gap: 30px;
-  margin-bottom: 5px;
+  margin: 8px 0;
 }
-
 .qty-btn {
   width: 28px;
   height: 28px;
