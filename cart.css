@@ -166,3 +166,9 @@ main{
 .qty-btn:hover {
   background: #ddd;
 }
+#cart-icon{
+  font-size: 35px;
+  font-size: 35px;
+  padding: 0;
+  margin: 0;
+}

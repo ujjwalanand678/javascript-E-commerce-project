@@ -177,13 +177,14 @@ function renderCartItems() {
     emptyMsg.classList.add("empty-msg");
     emptyMsg.innerHTML = `
     <div>
+    <p id="cart-icon">🛒</p>
     <p>Your cart is empty</p>
     <a href="./index.html" class="checkout-btn-1"><i class="fa-solid fa-arrow-left"></i>  <b> Continue Shopping<b/></a> 
     <div/>
     `;
    
     emptyMsg.style.textAlign = "center";
-    emptyMsg.style.padding = "30px";
+    emptyMsg.style.padding = "40px";
     emptyMsg.style.fontSize = "20px";
     emptyMsg.style.color = "#777";
     itemList.appendChild(emptyMsg);
