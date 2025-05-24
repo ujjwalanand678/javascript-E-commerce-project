@@ -4,6 +4,7 @@
   width: 300px;
   justify-self: center;
   padding: 20px;
+  
 }
 .heading-contact {
   text-align: center;
@@ -50,4 +51,7 @@
   width: 33%;
   background-color: rgb(61, 61, 61);
   color: aliceblue;
+}
+.text-color{
+  color: rgb(50, 124, 243);
 }
